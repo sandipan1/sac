@@ -3,12 +3,11 @@ import torch
 import torch.nn.functional as F
 from torch.distributions import Normal
 
-## GMM policy L to be implemented
-## a different comment in the same place
 
 class TanhGaussianPolicy(nn.Module):
 
-    def __init__(self, state_dim , action_dim, parameter=False,hidden_dim):
+    def __init__(self, state_dim , action_dim, hidden_dim):
+
         super(TanhGaussianPolicy,self).__init__()
 
         self.layer1 = nn.Linear (state_dim,hidden_dim)
@@ -23,8 +22,8 @@ class TanhGaussianPolicy(nn.Module):
         y= F.relu(self.layer2(y))
 
         mean = self.mean_layer(y)
-        #log_std = self.log_std_layer(y)
-        return mean
+        log_std = self.log_std_layer(y)
+        return mean,log_std
 
     # def action_to_apply(self,state):
 
